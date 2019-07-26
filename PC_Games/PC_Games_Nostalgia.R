@@ -1,15 +1,16 @@
 # PC GAMES Owners and Play Time Analysis
 #
-# Data is what is available for free from steamspy.com.
+# Data for each year was downloaded for free from https://steamspy.com/year/.
 # 
 # Goal: understand top games by number of owners and which ones are still being played long after release.
 # 
-# Playtime is the average (median) length of time the game was played in the last two weeks (July 1 - 14, 2019). 
+# Playtime is the average length of time the game was played in the last two weeks (July 1 - 14, 2019). 
 # For current or live games, there should be a lot of games with fairly high playtimes. What about old games? 
 # Which ones have stood the test of time? What are we nostaligic for?
 
 library(readxl)
 library(tidyverse)
+library(lubridate)
 library(cowplot)
 library(RColorBrewer)
 library(viridis)
@@ -20,6 +21,9 @@ file.list <- list.files(pattern='*.xlsx')
 df.list <- lapply(file.list, read_excel)
 df <- bind_rows(df.list)
 df
+
+# Export the combined data as a CSV:
+write_csv(df, "PCgames_2004_2018_raw.csv")
 
 #----------------
 # TIDY THE DATA
@@ -80,7 +84,7 @@ df <- df %>% select(-number, -ScoreRank)
 df
 
 # Export file with tidy data
-write_csv(df, "PCgames.csv")
+write_csv(df, "PCgames_tidy.csv")
 
 #---------------------------
 # LET'S START VISUALIZING
